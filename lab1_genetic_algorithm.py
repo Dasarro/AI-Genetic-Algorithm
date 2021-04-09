@@ -663,13 +663,13 @@ def genetic_algorithm(board: Board,
     print(f'Time: {time.time() - start}s')
     print('Number of generations: ', i)
     print('Best fitness:', best_solution.fitness)
-    print(*[solution.fitness for solution in population.evaluate()])
+    # print(*[solution.fitness for solution in population.evaluate()])
     return best_solution
 
 
 def read_config(task_number: int):
     try:
-        with open(f'./lab1_test_problems/lab1_test_problems/zad{task_number}.txt') as file:
+        with open(f'./lab1_test_problems/zad{task_number}.txt') as file:
             dimensions = file.readline().strip().split(sep=';')
             width, height = dimensions[0], dimensions[1]
             pairs = []
@@ -752,7 +752,7 @@ if __name__ == '__main__':
          population_size=300,
          selection_tournament=True,
          reroll_prob=0.6,
-         iteration_count=500,
+         iteration_count=75,
          fitness_length_weight=1,
          fitness_segment_weight=20,
          fitness_intersection_weight=1000,
