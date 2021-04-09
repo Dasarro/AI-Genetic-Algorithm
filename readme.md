@@ -1,7 +1,7 @@
 # PCB Autorouting - Genetic AI algorithm report
 
 The task was about using genetic AI algorithm in order to autoroute PCB in the best possible way, which means minimal path lengths, minimal number of segments and no intersections. Before establishing the best parameters to use in the program, we have to establish what some of GA (genetic algorithms) terms mean in our program:
-* **specimen/chromosome** – one solution, which is a PCB with all the paths connecting given points.
+* **specimen** – one solution, which is a PCB with all the paths connecting given points.
 * **population** – set of specimens, representing one generation
 * **gene** – a component of a chromosome. In our task, gene is represented as a single path of the PCB. Mutation will work on the gene level, making changes in segments inside of the path. 
 
@@ -11,19 +11,6 @@ When initialising the population, a pathfinding algorithm is used. The algorithm
 * Each generated segment have to be in different orientation than its neighbour.
 * When determining the length of the segment, algorithm takes the distance to the border into consideration. It means that **paths out of the border will not exist**. This approach have its pros and cons – initial specimens will be more realistic and there is less space to travel, which without capping the number of segments could lead to infinite time of finding the path. On the other hand, it limits the exploration potential – paths out of border can actually be close to the solution and a proper mutation could bring the path back on the board.
 * There is a manually set cap on the maximal number of segments in path in order to speed up the initialisation and mutations, which use the pathfinding algorithm. It can be removed but it would slower the execution drastically.
-
-## Start parameters
-
-In each test simulation will be run 10 times for given parameters:
-| | |
-|-|-|
-| Generations limit     | 75   |
-| Crossover probability | 0.7  |
-| Mutation probability  | 0.15 |
-| Reroll probability    | 0.15 |
-| Population size       | 300  |
-
-If tests will prove a better parameter, it will be used in next sections. Every test which is not signed with task number, is performed for Task 1, which is the most general and common case and therefore is very viable for test purposes.
 
 ## Fitness function
 
@@ -39,6 +26,19 @@ The fitness function takes 3 parameters into consideration – length of the pat
 |Intersections|1000           |
 
 > **Note**: Values can be easily changed through the parameters passed to the main function, which can be used e.g. to optimise the result only for path lengths, without considering number of segments. The values could not work that well in other scenarios that the given tasks – for instance when board size would be so big that getting 1000 points penalty by intersecting another path is still better than finding another solution with bigger number of segments and longer paths.
+
+## Start parameters
+
+In each test simulation will be run 10 times for given parameters:
+| | |
+|-|-|
+| Generations limit     | 75   |
+| Crossover probability | 0.7  |
+| Mutation probability  | 0.15 |
+| Reroll probability    | 0.15 |
+| Population size       | 300  |
+
+If tests will prove a better parameter, it will be used in next sections. Every test which is not signed with task number, is performed for Task 1, which is the most general and common case and therefore is very viable for test purposes.
 
 ## Selection
 
@@ -229,3 +229,22 @@ In 10 runs of random search with the same number of specimens investigated as fo
 |Best    |42870        |
 |Worst   |96076        |
 |Average |75755        |
+
+## Best solutions overview
+
+All of the results were obtained during the number of generation parameter testing.
+
+### Task 1
+
+!["First solution"](./images/task1-1.png)
+!["Second solution"](./images/task1-2.png)
+
+### Task 2
+
+!["First solution"](./images/task2-1.png)
+
+### Task 3
+
+!["First solution"](./images/task3-1.png)
+!["Second solution"](./images/task3-2.png)
+!["Third solution"](./images/task3-3.png)
