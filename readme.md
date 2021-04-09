@@ -3,19 +3,19 @@
 The task was about using genetic AI algorithm in order to autoroute PCB in the best possible way, which means minimal path lengths, minimal number of segments and no intersections. Before establishing the best parameters to use in the program, we have to establish what some of GA (genetic algorithms) terms mean in our program:
 * **specimen** – one solution, which is a PCB with all the paths connecting given points.
 * **population** – set of specimens, representing one generation
-* **gene** – a component of a chromosome. In our task, gene is represented as a single path of the PCB. Mutation will work on the gene level, making changes in segments inside of the path. 
+* **gene** – a component of a chromosome. In our task, genes are represented as a single path of the PCB. Mutation will work on the gene level, making changes in segments inside of the path. 
 
-Each path is represented as a list of segments. Each of segment consist of start and end point. There is also a board, which determines what pairs of points are to be connected and what is the available space.
+Each path is represented as a list of segments. Each segments consist of a start and end point. There is also a board, which determines what pairs of points are to be connected and what is the available space.
 
 When initialising the population, a pathfinding algorithm is used. The algorithm is based on random search, with a bigger chance of going in direction of the destination. There are three main points to be mentioned about the algorithm:
-* Each generated segment have to be in different orientation than its neighbour.
-* When determining the length of the segment, algorithm takes the distance to the border into consideration. It means that **paths out of the border will not exist**. This approach have its pros and cons – initial specimens will be more realistic and there is less space to travel, which without capping the number of segments could lead to infinite time of finding the path. On the other hand, it limits the exploration potential – paths out of border can actually be close to the solution and a proper mutation could bring the path back on the board.
-* There is a manually set cap on the maximal number of segments in path in order to speed up the initialisation and mutations, which use the pathfinding algorithm. It can be removed but it would slower the execution drastically.
+* Each generated segment has to be in a different orientation than its neighbour.
+* When determining the length of the segment, the algorithm takes the distance to the border into consideration. It means that **paths out of the border will not exist**. This approach have its pros and cons – initial specimens will be more realistic and there is less space to travel, which without capping the number of segments could lead to infinite time of finding the path. On the other hand, it limits the exploration potential – paths out of border can actually be close to the solution and a proper mutation could bring the path back on the board.
+* There is a manually set cap on the maximal number of segments in path in order to speed up the initialisation and mutations, which use the pathfinding algorithm. It can be removed but it would slow the execution drastically.
 
 ## Fitness function
 
 The fitness function takes 3 parameters into consideration – length of the paths, the count of the segments and the count of intersections. 
-* Length is the most basic parameter to be considered, so its weight has been set to **1** – it means that path containing 1 segment which connect points (10, 20) and (20, 20) will get 10 fitness penalty from length.
+* Length is the most basic parameter to be considered, so its weight has been set to **1** – it means that a path containing 1 segment which connects points (10, 20) and (20, 20) will get a 10 fitness penalty from length.
 * We want our paths to be as simple as possible. In order to do that, there has to be a penalty for every segment so AI will like simpler solutions more. The penalty has been experimentally set to **20** per segment and works as expected.
 * Intersections of paths should never exist for a solution to be a valid PCB. To not restrict pathfinding to prevent paths from intersecting, which would lead to worse exploration, we have to properly penalise every intersection. The value of **1000** works as expected, promoting solutions with the least number of intersections.
 
@@ -25,7 +25,7 @@ The fitness function takes 3 parameters into consideration – length of the pat
 |Segment count|20             |
 |Intersections|1000           |
 
-> **Note**: Values can be easily changed through the parameters passed to the main function, which can be used e.g. to optimise the result only for path lengths, without considering number of segments. The values could not work that well in other scenarios that the given tasks – for instance when board size would be so big that getting 1000 points penalty by intersecting another path is still better than finding another solution with bigger number of segments and longer paths.
+> **Note**: Values can be easily changed through the parameters passed to the main function, which can be used e.g. to optimise the result only for path lengths, without considering the number of segments. The values could not work that well in other scenarios that the given tasks – for instance when board size would be so big that getting 1000 points penalty by intersecting another path is still better than finding another solution with a bigger number of segments and longer paths.
 
 ## Start parameters
 
@@ -51,7 +51,7 @@ If tests will prove a better parameter, it will be used in next sections. Every 
 |Standard deviation|1278                   |
 |Survivability     |10%                    |
 
-The interesting thing about roulette wheel selection is that in last population the best solution is not present in most of the cases. Also, the population is really diverse. It means that the survivability is low. In case of this experiment, only 1 of last populations had its best specimen.
+The interesting thing about roulette wheel selection is that in the last population the best solution is not present in most of the cases. Also, the population is really diverse. It means that the survivability is low. In the case of this experiment, only 1 of the last populations had its best specimen.
 
 ### Tournament
 
@@ -71,7 +71,7 @@ The interesting thing about roulette wheel selection is that in last population 
 |50|2432|9332|6388|1800|100%|
 |75|4452|9334|6803|1476|100%|
 
-Low tournament size leads to lower survivability. This is because there is lower chance of  drawing a specific specimen into the tournament. The bigger the tournament size, the greater survivability. However, it has a downside – with bigger tournament size, the population is becoming very homogenous really fast. It means that mutation will be the main source of upgrades, which is not good - evolution should mainly consist of crossovers. To preserve a good survivability with diverse population and taking average fitness score into consideration, **tournament size of 4 was chosen as the best**. Roulette wheel selection is visibly worse than tournament selection and it has really bad survivability, which leads to losing the best specimens, so population average fitness may regress.
+Low tournament size leads to lower survivability. This is because there is a lower chance of  drawing a specific specimen into the tournament. The bigger the tournament size, the greater survivability. However, it has a downside – with bigger tournament size, the population is becoming very homogenous really fast. It means that mutation will be the main source of upgrades, which is not good - evolution should mainly consist of crossovers. To preserve a good survivability with diverse population and taking average fitness score into consideration, **tournament size of 4 was chosen as the best**. Roulette wheel selection is visibly worse than tournament selection and it has really bad survivability, which leads to losing the best specimens, so population average fitness may regress.
 
 ## Population
 
@@ -94,7 +94,7 @@ Low tournament size leads to lower survivability. This is because there is lower
 |800|5518|12350|9372|2141|100%|
 |1000|7402|18536|11668|4010|100%|
 
-Low population sizes leads to rather bad results. It is because we do not have good diversity, so we do not have much to work with. Bigger populations provide diversity, but at some point they start to slow down the evolution dramatically. In long run, bigger population size could provide better results, but the time required would be much longer. Because we are considering time as a important factor, for a chosen interval of time **population of 300 specimens** seems to be a good choice looking at the tendency of average fitness scores.
+Low population sizes leads to rather bad results. It is because we do not have good diversity, so we do not have much to work with. Bigger populations provide diversity, but at some point they start to slow down the evolution dramatically. In the long run, a bigger population size could provide better results, but the time required would be much longer. Because we are considering time as a important factor, for a chosen interval of time **population of 300 specimens** seems to be a good choice looking at the tendency of average fitness scores.
 
 ## Crossover
 
@@ -126,7 +126,7 @@ Low population sizes leads to rather bad results. It is because we do not have g
 |90%|6500|10440|8162|1456|80%|
 |100%|5508|10530|7855|1686|90%|
 
-More random crossovers provides much better results. The reason for that may be a better variaty in crossover childrens from the same parents, which may lead to more interesting results. For crossover with random genes, **60% chance of crossover leads to the best results**.
+More random crossovers provides much better results. The reason for that may be a better variety in crossover childrens from the same parents, which may lead to more interesting results. For crossover with random genes, **60% chance of crossover leads to the best results**.
 
 ## Mutation
 
@@ -157,7 +157,7 @@ Two types of mutations are implemented - shift, which picks a random segment in 
 |5%|3436|8376|5709|1968|100%|
 |0%|3480|10348|6001|1920|100%|
 
-It seems that both types are valuable and **60% of reroll mutation with 40% of shift mutation works the best**. Shift mutation can only preserve or reduce number of segments in the path, so use of reroll to introduce new segments or for a chance of simplification is for sure reasonable. Now we can determine the chance of a given specimen to mutate, that leads to the best results.
+It seems that both types are valuable and **60% of reroll mutation with 40% of shift mutation works the best**. Shift mutation can only preserve or reduce the number of segments in the path, so use of reroll to introduce new segments or for a chance of simplification is for sure reasonable. Now we can determine the chance of a given specimen to mutate, that leads to the best results.
 
 ### Mutation probability
 |Mutation prob.|Best|Worst|Average|Standard deviation|Survivability|
@@ -182,7 +182,7 @@ It seems that both types are valuable and **60% of reroll mutation with 40% of s
 |5%|1544|7380|5129|2062|100%|
 |0%|7408|10616|9069|1073|90%|
 
-It is clearly visible that low chances of mutation do not work very well. My implementations of mutation allow only for a single path mutation, so mutations are not very drastic and thus more frequent mutations work better. The average fitness score is not changing after 30% mark and greater mutation probability decreases survivability, so **35% mutation probability was chosen**,
+It is clearly visible that low chances of mutation do not work very well. My implementations of mutation allow only for a single path mutation, so mutations are not very drastic and thus more frequent mutations work better. The average fitness score is not changing after 30% mark and greater mutation probability decreases survivability and slows down the execution, so **35% mutation probability was chosen**,
 
 ## Number of generations
 
@@ -222,7 +222,7 @@ It is clearly visible that low chances of mutation do not work very well. My imp
 
 ## Comparison with random search
 
-In 10 runs of random search with the same number of specimens investigated as for AI, the best result is nowhere close to the results obtained by the AI. Also, the time was about 6 time longer. It shows that AI outperformes random search, which was expected.
+In 10 runs of random search with the same number of specimens investigated as for AI, the best result is nowhere close to the results obtained by the AI. Also, the time was about 6 times longer. It shows that AI outperforms random search, which was expected.
 
 |        |Random search|
 |--------|-------------|
@@ -252,11 +252,12 @@ The obtained solution looks as expected.
 There were 3 solutions worth mentioning – one, the most common one, which was obtained by the AI the most often, has 4 intersections and has path lengths and number of segments optimised.
 ![First solution](./images/task3-1.png)
 
-when the GA obtained the above solution, it was almost impossible to improve – in fact, in all the tests performed it did not happen. It is because this algorithm allow only 1 path to mutate at given generation, and there is no possibility of performing only 1 mutation and getting better result from this point – we would need a combination of mutation. There is a little chance that a couple of specimens will produce required paths and then they will combine in crossovers, but it is rather unlikely since tournaments will be won rather by better solutions.
+When the GA obtained the above solution, it was almost impossible to improve – in fact, in all the tests performed it did not happen. It is because this algorithm allows only 1 path to mutate at a given generation, and there is no possibility of performing only 1 mutation and getting better results from this point – we would need a combination of mutations. There is a little chance that a couple of specimens will produce required paths and then they will combine in crossovers, but it is rather unlikely since tournaments will be won rather by better solutions.
 In order to get better result, the result always was obtained from more random state of population and its best specimen, as in terminal screenshots below:
+
 ![First terminal screen](./images/task3-terminal1.png)
 ![Second terminal screen](./images/task3-terminal2.png)
 
-While getting from more random state, undermentioned solutions were get. The second one created a little part of the destined zig-zag pattern.
+While getting from a more random state, undermentioned solutions were obtained. The second one created a little part of the destined zig-zag pattern.
 ![Second solution](./images/task3-2.png)
 ![Third solution](./images/task3-3.png)
