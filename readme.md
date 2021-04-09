@@ -236,15 +236,27 @@ All of the results were obtained during the number of generation parameter testi
 
 ### Task 1
 
-!["First solution"](./images/task1-1.png)
-!["Second solution"](./images/task1-2.png)
+The solutions differ a little bit from the proposed solution, but undermentioned solutions are better optimised in regards to number of segments – 22 and 21 vs 25.
+
+![First solution](./images/task1-1.png)
+![Second solution](./images/task1-2.png)
 
 ### Task 2
 
-!["First solution"](./images/task2-1.png)
+The obtained solution looks as expected.
+
+![First solution](./images/task2-1.png)
 
 ### Task 3
 
-!["First solution"](./images/task3-1.png)
-!["Second solution"](./images/task3-2.png)
-!["Third solution"](./images/task3-3.png)
+There were 3 solutions worth mentioning – one, the most common one, which was obtained by the AI the most often, has 4 intersections and has path lengths and number of segments optimised.
+![First solution](./images/task3-1.png)
+
+when the GA obtained the above solution, it was almost impossible to improve – in fact, in all the tests performed it did not happen. It is because this algorithm allow only 1 path to mutate at given generation, and there is no possibility of performing only 1 mutation and getting better result from this point – we would need a combination of mutation. There is a little chance that a couple of specimens will produce required paths and then they will combine in crossovers, but it is rather unlikely since tournaments will be won rather by better solutions.
+In order to get better result, the result always was obtained from more random state of population and its best specimen, as in terminal screenshots below:
+![First terminal screen](./images/task3-terminal1.png)
+![Second terminal screen](./images/task3-terminal2.png)
+
+While getting from more random state, undermentioned solutions were get. The second one created a little part of the destined zig-zag pattern.
+![Second solution](./images/task3-2.png)
+![Third solution](./images/task3-3.png)
