@@ -5,11 +5,11 @@ The task was about using genetic AI algorithm in order to autoroute PCB in the b
 * **population** – set of specimens, representing one generation
 * **gene** – a component of a chromosome. In our task, genes are represented as a single path of the PCB. Mutation will work on the gene level, making changes in segments inside of the path. 
 
-Each path is represented as a list of segments. Each segments consist of a start and end point. There is also a board, which determines what pairs of points are to be connected and what is the available space.
+Each path is represented as a list of segments. Each segment consists of a start and end point. There is also a board, which determines what pairs of points are to be connected and what is the available space.
 
 When initialising the population, a pathfinding algorithm is used. The algorithm is based on random search, with a bigger chance of going in direction of the destination. There are three main points to be mentioned about the algorithm:
 * Each generated segment has to be in a different orientation than its neighbour.
-* When determining the length of the segment, the algorithm takes the distance to the border into consideration. It means that **paths out of the border will not exist**. This approach have its pros and cons – initial specimens will be more realistic and there is less space to travel, which without capping the number of segments could lead to infinite time of finding the path. On the other hand, it limits the exploration potential – paths out of border can actually be close to the solution and a proper mutation could bring the path back on the board.
+* When determining the length of the segment, the algorithm takes the distance to the border into consideration. It means that **paths out of the border will not exist**. This approach has its pros and cons – initial specimens will be more realistic and there is less space to travel, which without capping the number of segments could lead to infinite time of finding the path. On the other hand, it limits the exploration potential – paths out of border can actually be close to the solution and a proper mutation could bring the path back on the board.
 * There is a manually set cap on the maximal number of segments in path in order to speed up the initialisation and mutations, which use the pathfinding algorithm. It can be removed but it would slow the execution drastically.
 
 ## Fitness function
@@ -186,6 +186,8 @@ It is clearly visible that low chances of mutation do not work very well. My imp
 
 ## Number of generations
 
+In the case of the number of generations, it is pretty straight-forward – the more generations, the better results will be obtained but with the cost of time complexity.
+
 ### Task 1
 |Generation count|Best|Worst|Average|Standard deviation|Survivability|
 |---------------:|:--:|:---:|:-----:|:----------------:|:-----------:|
@@ -197,6 +199,8 @@ It is clearly visible that low chances of mutation do not work very well. My imp
 |300|534|3518|2218|1032|90%|
 |400|542|3510|1711|1113|100%|
 |500|542|2538|1925|959|100%|
+
+The GA gets a solution with 1 intersection pretty consistently. With higher number of generations, the proper solutions without intersections could be obtained.
 
 ### Task 2
 |Generation count|Best|Worst|Average|Standard deviation|Survivability|
@@ -210,6 +214,8 @@ It is clearly visible that low chances of mutation do not work very well. My imp
 |400|397|1289|932|461|100%|
 |500|1289|1289|1289|0|100%|
 
+An optimised result for 1 intersection is easy to get for the GA – for a higher number of generations, it is obtained very consistently. With some luck it is possible to get a proper solution. It takes some time, because when the main path will not have enough segments (e.g. because of simplifications), only an almost perfect reroll can lead to a solution, and then it is quickly optimised with shifts.
+
 ### Task 3
 |Generation count|Best|Worst|Average|Standard deviation|Survivability|
 |---------------:|:--:|:---:|:-----:|:----------------:|:-----------:|
@@ -219,6 +225,8 @@ It is clearly visible that low chances of mutation do not work very well. My imp
 |150|3784|8658|4950|1330|100%|
 |200|3784|10664|5470|2099|100%|
 |300|3714|6658|4743|732|100%|
+
+An optimised result for 4 intersections is rather common. With enough generations, it is possible to get a little better solution, but it is pretty luck-dependent. It is described in [the best solutions overview](#the-best-solutions-overview) section.
 
 ## Comparison with random search
 
@@ -230,8 +238,7 @@ In 10 runs of random search with the same number of specimens investigated as fo
 |Worst   |96076        |
 |Average |75755        |
 
-## Best solutions overview
-
+## The best solutions overview
 All of the results were obtained during the number of generation parameter testing.
 
 ### Task 1
