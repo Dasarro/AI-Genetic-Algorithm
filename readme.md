@@ -260,8 +260,20 @@ There were 3 solutions worth mentioning – one, the most common one, which was 
 ![First solution](./images/task3-1.png)
 
 When the GA obtained the above solution, it was almost impossible to improve – in fact, in all the tests performed it did not happen. It is because this algorithm allows only 1 path to mutate at a given generation, and there is no possibility of performing only 1 mutation and getting better results from this point – we would need a combination of mutations. There is a little chance that a couple of specimens will produce required paths and then they will combine in crossovers, but it is rather unlikely since tournaments will be won rather by better solutions.
-In order to get better result, the result always was obtained from more random state of population and its best specimen, as in terminal screenshots below:
+In order to get better result, the result always was obtained from more random state of population and its best specimen, as below:
 
+```bash
+New best: 5742 Number of generations: 69
+New best: 5722 Number of generations: 72
+New best: 3846 Number of generations: 72
+```
+
+```bash
+New best: 5756 Number of generations: 48
+New best: 5736 Number of generations: 55
+New best: 3760 Number of generations: 56
+New best: 3740 Number of generations: 58
+```
 ![First terminal screen](./images/task3-terminal1.png)
 ![Second terminal screen](./images/task3-terminal2.png)
 
