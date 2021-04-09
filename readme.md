@@ -274,8 +274,6 @@ New best: 5736 Number of generations: 55
 New best: 3760 Number of generations: 56
 New best: 3740 Number of generations: 58
 ```
-![First terminal screen](./images/task3-terminal1.png)
-![Second terminal screen](./images/task3-terminal2.png)
 
 While getting from a more random state, undermentioned solutions were obtained. The second one created a little part of the destined zig-zag pattern.
 ![Second solution](./images/task3-2.png)
